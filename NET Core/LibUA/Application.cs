@@ -1762,7 +1762,7 @@ namespace LibUA
                 //	EnumDefinition/100 -> HasSubtype/45 
                 //	HasEncoding/38 -> Default XML/339
                 //	HasEncoding/38 -> Default Binary/340
-                var ID_i97_DataTypeDefinition = new NodeDataType(new NodeId(97), new QualifiedName("DataTypeDefinition"), new LocalizedText("DataTypeDefinition"), new LocalizedText(""), 0, 0, false);
+                var ID_i97_DataTypeDefinition = new NodeDataType(new NodeId(97), new QualifiedName("DataTypeDefinition"), new LocalizedText("DataTypeDefinition"), new LocalizedText(""), 0, 0, true);
                 ID_i97_DataTypeDefinition.References.Add(new ReferenceNode(new NodeId(45), new NodeId(22), true));
                 ID_i97_DataTypeDefinition.References.Add(new ReferenceNode(new NodeId(45), new NodeId(99), false));
                 ID_i97_DataTypeDefinition.References.Add(new ReferenceNode(new NodeId(45), new NodeId(100), false));
