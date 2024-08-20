@@ -587,6 +587,10 @@ namespace LibUA
                     {
                         res[i] = new DataValue((node as NodeReferenceType).IsAbstract, StatusCode.Good);
                     }
+                    else if (readValueIds[i].AttributeId == NodeAttribute.IsAbstract && node is NodeDataType nodeDataType)
+                    {
+                        res[i] = new DataValue(nodeDataType.IsAbstract, StatusCode.Good);
+                    }
                     else if (readValueIds[i].AttributeId == NodeAttribute.Symmetric && node is NodeReferenceType)
                     {
                         res[i] = new DataValue((node as NodeReferenceType).IsSymmetric, StatusCode.Good);
@@ -614,6 +618,10 @@ namespace LibUA
                     else if (readValueIds[i].AttributeId == NodeAttribute.DataType && node is NodeVariableType)
                     {
                         res[i] = new DataValue((node as NodeVariableType).DataType ?? new NodeId(UAConst.BaseDataType), StatusCode.Good);
+                    }
+                    else if (readValueIds[i].AttributeId == NodeAttribute.DataTypeDefinition && node is NodeStructureDataType nodeStructureDataType)
+                    {
+                        res[i] = new DataValue(nodeStructureDataType.DataTypeDefinition, StatusCode.Good);
                     }
                     else if (readValueIds[i].AttributeId == NodeAttribute.AccessLevel && node is NodeVariable)
                     {
@@ -1205,6 +1213,8 @@ namespace LibUA
                 ID_i22_Structure.References.Add(new ReferenceNode(new NodeId(45), new NodeId(12080), false));
                 ID_i22_Structure.References.Add(new ReferenceNode(new NodeId(45), new NodeId(894), false));
                 ID_i22_Structure.References.Add(new ReferenceNode(new NodeId(45), new NodeId(891), false));
+                ID_i22_Structure.References.Add(new ReferenceNode(new NodeId(45), new NodeId(97), false));
+                ID_i22_Structure.References.Add(new ReferenceNode(new NodeId(45), new NodeId(101), false));
 
                 // DataValue, i=23, TypeGenerator.AddressSpaceGenerator+NodeDataType
                 //	HasSubtype/45 <- BaseDataType/24
@@ -1747,6 +1757,45 @@ namespace LibUA
                 ID_i405_CompositeTestType.References.Add(new ReferenceNode(new NodeId(38), new NodeId(406), false));
                 ID_i405_CompositeTestType.References.Add(new ReferenceNode(new NodeId(38), new NodeId(407), false));
 
+                // DataTypeDefinition, i=97, TypeGenerator.AddressSpaceGenerator+NodeDataType
+                //	HasSubtype/45 <- Structure/22
+                //	EnumDefinition/100 -> HasSubtype/45 
+                //	HasEncoding/38 -> Default XML/339
+                //	HasEncoding/38 -> Default Binary/340
+                var ID_i97_DataTypeDefinition = new NodeDataType(new NodeId(97), new QualifiedName("DataTypeDefinition"), new LocalizedText("DataTypeDefinition"), new LocalizedText(""), 0, 0, false);
+                ID_i97_DataTypeDefinition.References.Add(new ReferenceNode(new NodeId(45), new NodeId(22), true));
+                ID_i97_DataTypeDefinition.References.Add(new ReferenceNode(new NodeId(45), new NodeId(99), false));
+                ID_i97_DataTypeDefinition.References.Add(new ReferenceNode(new NodeId(45), new NodeId(100), false));
+                ID_i97_DataTypeDefinition.References.Add(new ReferenceNode(new NodeId(38), new NodeId(339), false));
+                ID_i97_DataTypeDefinition.References.Add(new ReferenceNode(new NodeId(38), new NodeId(340), false));
+                
+                // StructureDefinition, i=99, TypeGenerator.AddressSpaceGenerator+NodeDataType
+                //	HasSubtype/45 <- DataTypeDefinition/97
+                //	HasEncoding/38 -> Default XML/339
+                //	HasEncoding/38 -> Default Binary/340
+                var ID_i99_StructureDefinition = new NodeStructureDataType(new NodeId(99), new QualifiedName("StructureDefinition"), new LocalizedText("StructureDefinition"), new LocalizedText(""), 0, 0, false);
+                ID_i99_StructureDefinition.References.Add(new ReferenceNode(new NodeId(45), new NodeId(97), true));
+                ID_i99_StructureDefinition.References.Add(new ReferenceNode(new NodeId(38), new NodeId(339), false));
+                ID_i99_StructureDefinition.References.Add(new ReferenceNode(new NodeId(38), new NodeId(340), false));
+                    
+                // EnumDefinition, i=100, TypeGenerator.AddressSpaceGenerator+NodeDataType
+                //	HasSubtype/45 <- DataTypeDefinition/97
+                //	HasEncoding/38 -> Default XML/339
+                //	HasEncoding/38 -> Default Binary/340
+                var ID_i100_EnumDefinition = new NodeStructureDataType(new NodeId(100), new QualifiedName("EnumDefinition"), new LocalizedText("EnumDefinition"), new LocalizedText(""), 0, 0, false);
+                ID_i100_EnumDefinition.References.Add(new ReferenceNode(new NodeId(45), new NodeId(97), true));
+                ID_i100_EnumDefinition.References.Add(new ReferenceNode(new NodeId(38), new NodeId(339), false));
+                ID_i100_EnumDefinition.References.Add(new ReferenceNode(new NodeId(38), new NodeId(340), false));
+                
+                // StructureField, i=101, TypeGenerator.AddressSpaceGenerator+NodeDataType
+                //	HasSubtype/45 <- Structure/22
+                //	HasEncoding/38 -> Default XML/339
+                //	HasEncoding/38 -> Default Binary/340
+                var ID_i101_StructureField = new NodeStructureDataType(new NodeId(101), new QualifiedName("StructureField"), new LocalizedText("StructureField"), new LocalizedText(""), 0, 0, false);
+                ID_i101_StructureField.References.Add(new ReferenceNode(new NodeId(45), new NodeId(22), true));
+                ID_i101_StructureField.References.Add(new ReferenceNode(new NodeId(38), new NodeId(339), false));
+                ID_i101_StructureField.References.Add(new ReferenceNode(new NodeId(38), new NodeId(340), false));
+                
                 // BuildInfo, i=338, TypeGenerator.AddressSpaceGenerator+NodeDataType
                 //	HasSubtype/45 <- Structure/22
                 //	HasEncoding/38 -> Default XML/339
@@ -5757,7 +5806,7 @@ namespace LibUA
                 ID_i106_DataTypeVersion.References.Add(new ReferenceNode(new NodeId(40), new NodeId(68), false));
                 ID_i106_DataTypeVersion.References.Add(new ReferenceNode(new NodeId(37), new NodeId(80), false));
                 ID_i106_DataTypeVersion.References.Add(new ReferenceNode(new NodeId(46), new NodeId(72), true));
-
+                
                 // NamespaceUri, i=107, TypeGenerator.AddressSpaceGenerator+NodeVariable
                 //	HasTypeDefinition/40 -> PropertyType/68
                 //	HasModellingRule/37 -> Optional/80
@@ -15526,6 +15575,12 @@ namespace LibUA
                 AddressSpaceTable.TryAdd(ID_i91_ReferenceTypes.Id, ID_i91_ReferenceTypes);
                 AddressSpaceTable.TryAdd(ID_i92_XMLSchema.Id, ID_i92_XMLSchema);
                 AddressSpaceTable.TryAdd(ID_i93_OPCBinary.Id, ID_i93_OPCBinary);
+                
+                AddressSpaceTable.TryAdd(ID_i97_DataTypeDefinition.Id, ID_i97_DataTypeDefinition);
+                AddressSpaceTable.TryAdd(ID_i99_StructureDefinition.Id, ID_i99_StructureDefinition);
+                AddressSpaceTable.TryAdd(ID_i100_EnumDefinition.Id, ID_i100_EnumDefinition);
+                AddressSpaceTable.TryAdd(ID_i101_StructureField.Id, ID_i101_StructureField);
+                
                 AddressSpaceTable.TryAdd(ID_i104_DataTypeVersion.Id, ID_i104_DataTypeVersion);
                 AddressSpaceTable.TryAdd(ID_i105_DictionaryFragment.Id, ID_i105_DictionaryFragment);
                 AddressSpaceTable.TryAdd(ID_i106_DataTypeVersion.Id, ID_i106_DataTypeVersion);

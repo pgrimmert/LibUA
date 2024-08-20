@@ -5523,7 +5523,7 @@ namespace LibUA
             RolePermissions = 24,
             UserRolePermissions = 25,
             AccessRestrictions = 26,
-            AccessLevelEx = 27,
+            AccessLevelEx = 27
         }
 
         [Flags]

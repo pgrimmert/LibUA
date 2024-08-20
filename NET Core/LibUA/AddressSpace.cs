@@ -495,11 +495,29 @@ namespace LibUA
             {
                 get; protected set;
             }
+            
+
 
             public NodeDataType(NodeId Id, QualifiedName BrowseName, LocalizedText DisplayName, LocalizedText Description, UInt32 WriteMask, UInt32 UserWriteMask, bool IsAbstract)
                 : base(Id, NodeClass.ObjectType, BrowseName, DisplayName, Description, WriteMask, UserWriteMask)
             {
                 this.IsAbstract = IsAbstract;
+            }
+        }
+
+        public class NodeStructureDataType : NodeDataType
+        {
+            public ExtensionObject DataTypeDefinition
+            {
+                get;
+                protected set;
+            }
+
+            public NodeStructureDataType(NodeId Id, QualifiedName BrowseName, LocalizedText DisplayName, LocalizedText Description, UInt32 WriteMask, UInt32 UserWriteMask, bool IsAbstract)
+            : base(Id, BrowseName, DisplayName, Description, WriteMask, UserWriteMask, IsAbstract)
+            {
+                DataTypeDefinition = new ExtensionObject();
+                DataTypeDefinition.TypeId = new NodeId(0, 1);
             }
         }
     }
