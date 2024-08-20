@@ -507,7 +507,7 @@ namespace LibUA
 
         public class NodeStructureDataType : NodeDataType
         {
-            public ExtensionObject DataTypeDefinition
+            public ExtensionObject<object> DataTypeDefinition
             {
                 get;
                 protected set;
@@ -516,8 +516,8 @@ namespace LibUA
             public NodeStructureDataType(NodeId Id, QualifiedName BrowseName, LocalizedText DisplayName, LocalizedText Description, UInt32 WriteMask, UInt32 UserWriteMask, bool IsAbstract)
             : base(Id, BrowseName, DisplayName, Description, WriteMask, UserWriteMask, IsAbstract)
             {
-                DataTypeDefinition = new ExtensionObject();
-                DataTypeDefinition.TypeId = new NodeId(0, 1);
+                DataTypeDefinition = new ExtensionObject<object>();
+                DataTypeDefinition.Value = new { Prop1 = "Hallo", Prop2 = "ciao" };
             }
         }
     }
