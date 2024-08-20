@@ -477,6 +477,7 @@ namespace LibUA
             ReferenceTypesFolder = 91,
             XmlSchema_TypeSystem = 92,
             OPCBinarySchema_TypeSystem = 93,
+            StructureDefinition = 99,
             DataTypeDescriptionType_DataTypeVersion = 104,
             DataTypeDescriptionType_DictionaryFragment = 105,
             DataTypeDictionaryType_DataTypeVersion = 106,
@@ -5866,6 +5867,11 @@ namespace LibUA
                             case OpcRange range:
                                 payloadType = UAConst.Range;
                                 if (!buffer.Encode(range)) { return false; }
+                                break;
+                            case StructureDefinition bk:
+                                payloadType = UAConst.StructureDefinition;
+                                if (!buffer.Encode(bk)) { return false; }
+
                                 break;
                             default:
                                 break;

@@ -11,6 +11,51 @@ public class EUInformation
     public LocalizedText Description { get; set; } = new("");
 }
 
+public class StructureDefinition
+{
+    public string SdName { get; set; }
+}
+
+public static class StructureDefinitionExtensions
+{
+    public static int CodingSize(this MemoryBuffer mem, StructureDefinition dv)
+    {
+        int sum = 0;
+
+        sum += Coding.CodingSizeUAString(dv.SdName);
+
+        return sum;
+    }
+
+    public static bool Encode(this MemoryBuffer mem, StructureDefinition item)
+    {
+        if (!mem.EncodeUAString(item.SdName)) { return false; }
+
+        return true;
+    }
+
+    public static bool Decode(this MemoryBuffer mem, out StructureDefinition wv)
+    {
+        wv = null;
+
+        if (!mem.DecodeUAString(out string sdName)) { return false; }
+
+        try
+        {
+            wv = new StructureDefinition
+            {
+                SdName = sdName,
+            };
+        }
+        catch
+        {
+            return false;
+        }
+
+        return true;
+    }
+}
+
 public static class EUInformationExtensions
 {
     public static int CodingSize(this MemoryBuffer mem, EUInformation dv)

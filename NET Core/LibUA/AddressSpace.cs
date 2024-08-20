@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LibUA.ValueTypes;
 
 namespace LibUA
 {
@@ -507,7 +508,7 @@ namespace LibUA
 
         public class NodeStructureDataType : NodeDataType
         {
-            public ExtensionObject<object> DataTypeDefinition
+            public ExtensionObject<StructureDefinition> DataTypeDefinition
             {
                 get;
                 protected set;
@@ -516,8 +517,13 @@ namespace LibUA
             public NodeStructureDataType(NodeId Id, QualifiedName BrowseName, LocalizedText DisplayName, LocalizedText Description, UInt32 WriteMask, UInt32 UserWriteMask, bool IsAbstract)
             : base(Id, BrowseName, DisplayName, Description, WriteMask, UserWriteMask, IsAbstract)
             {
-                DataTypeDefinition = new ExtensionObject<object>();
-                DataTypeDefinition.Value = new { Prop1 = "Hallo", Prop2 = "ciao" };
+                DataTypeDefinition = new ExtensionObject<StructureDefinition>();
+                
+                // DataTypeDefinition.TypeId = new NodeId(0, 99);
+                DataTypeDefinition.Payload = new StructureDefinition()
+                {
+                    SdName = "Wer das hier liest ist doof."
+                };
             }
         }
     }
